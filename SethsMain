@@ -1,0 +1,75 @@
+/*
+ * FinalProject.c
+ *  ----------- WORKING VERSION OF 2 PUMPS THAT TURN ON WHILST BUTTON IS BEING PRESSED, THEN TURN OFF WHEN IN UNPRESSED STATE ----------- -SETH
+ * Created: 4/28/2025 3:55:00 PM
+ * Author : Adrian Alvarez & Seth Bolen
+ */
+
+#define F_CPU 16000000UL  // 16 MHz clock
+#include <avr/io.h>
+#include <util/delay.h>
+
+#define RELAY_PIN1 PB3  // Relay control pin 1
+#define RELAY_PIN2 PB4  // Relay control pin 2
+#define LED_PIN    PB5  // Built-in "L" LED pin
+#define BUTTON_PIN PB2  // Pushbutton input pin
+
+void setup(void) {
+    // Set relay pins and LED pin as outputs
+    DDRB |= (1 << RELAY_PIN1) | (1 << RELAY_PIN2) | (1 << LED_PIN);
+
+    // Set button pin as input
+    DDRB &= ~(1 << BUTTON_PIN);
+
+    // Enable pull-up resistor on button pin
+    PORTB |= (1 << BUTTON_PIN);
+
+    // Turn on built-in LED steady
+    PORTB |= (1 << LED_PIN);
+
+    // Make sure relays are OFF at startup
+    PORTB |= ~((1 << RELAY_PIN1) | (1 << RELAY_PIN2));
+}
+
+void loop(void) {
+    // Wait for button press
+    if (!(PINB & (1 << BUTTON_PIN))) {
+        _delay_ms(50);  // debounce delay
+
+        // Confirm button still pressed after debounce
+        if (!(PINB & (1 << BUTTON_PIN))) {
+
+            // Turn ON relays immediately
+			 PORTB &= ~((1 << RELAY_PIN1) | (1 << RELAY_PIN2));
+            
+
+            // Blink the LED during the 5 second relay ON time
+            
+
+            // After blinking, turn LED back steady ON
+            PORTB |= (1 << LED_PIN);
+
+            // Now Turn OFF relays immediately
+            //PORTB |= (1 << RELAY_PIN1) | (1 << RELAY_PIN2);
+
+            // Wait for button release before accepting another press
+            while (!(PINB & (1 << BUTTON_PIN))) {
+                _delay_ms(10);
+            }
+
+            _delay_ms(50); // optional debounce after release
+        }
+    }
+	PORTB |= (1 << RELAY_PIN1) | (1 << RELAY_PIN2);
+}
+
+int main(void) {
+    setup();
+    while (1) {
+        loop();
+    }
+	for (int i = 0; i < 10; i++) { // 10 blinks = 5 sec
+		PORTB ^= (1 << LED_PIN); // Toggle LED
+		_delay_ms(250);
+	}
+}
