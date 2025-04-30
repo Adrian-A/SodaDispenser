@@ -4,6 +4,7 @@
  * Created: 4/28/2025 3:55:00 PM
  * Author : Adrian Alvarez & Seth Bolen
  */
+// Library for Sensor: https://github.com/Ovidiu22/HC-SR04/tree/main/src
 
 #define F_CPU 16000000UL  // 16 MHz clock
 #include <avr/io.h>
@@ -85,7 +86,7 @@ void uart_print_float(float num) {
 // Initialize Timer1 for pulse measurement
 void timer1_init() {
 	TCCR1A = 0;                  // Normal mode (no waveform generation)
-	TCCR1B = (1 << CS11);        // Start Timer1 with prescaler = 8 (1 tick = 0.5 µs at 16 MHz)
+	TCCR1B = (1 << CS11);        // Start Timer1 with prescaler = 8 (1 tick = 0.5 Âµs at 16 MHz)
 }
 
 uint16_t pulseIn() {
@@ -104,7 +105,7 @@ uint16_t pulseIn() {
 	//uart_print("Debug4");
 	//return TCNT1;
 	
-	uint16_t timeout = 38000; // 38 ms timeout = 76000 timer ticks at 0.5 µs per tick
+	uint16_t timeout = 38000; // 38 ms timeout = 76000 timer ticks at 0.5 Âµs per tick
 
 	// Wait for ECHO to go HIGH (start of echo pulse)
 	while (!(PIND & (1 << ECHO_PIN))) {
@@ -115,14 +116,14 @@ uint16_t pulseIn() {
 	TCNT1 = 0;
 
 	// Reset timeout for HIGH duration
-	timeout = 76000; // Max echo high time in ticks (38 ms / 0.5 µs)
+	timeout = 76000; // Max echo high time in ticks (38 ms / 0.5 Âµs)
 
 	// Wait for ECHO to go LOW (end of echo pulse)
 	while (PIND & (1 << ECHO_PIN)) {
 		if (--timeout == 0) return 0; // Timeout waiting for LOW
 	}
 
-	return TCNT1; // Duration of HIGH pulse (in 0.5 µs units)
+	return TCNT1; // Duration of HIGH pulse (in 0.5 Âµs units)
 }
 
 void sendPulse(void){
