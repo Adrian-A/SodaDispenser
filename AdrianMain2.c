@@ -54,10 +54,12 @@ void setup(void) {
     DDRC &= ~(1 << BUTTON1_PIN);
 	DDRC &= ~(1 << BUTTON2_PIN);
 
+	init_rfid();
 	// Initializes sensor
 	init_ultrasonic();
 	// Initializes RFID
-	init_rfid();
+	// FIX: THIS CAUSES THE SENSOR TO NOT WORK BECAUSE OF TIMER STUFF
+	//init_rfid();
 
     // Enable pull-up resistor on button pin
     PORTC |= (1 << BUTTON1_PIN);
@@ -75,42 +77,19 @@ void setup(void) {
 ///////////////////////////////////////////////
 // Setups RFID
 ///////////////////////////////////////////////
-void init_rfid(){
-	//uart_print("RFID Reader");
-	//uart_print(VERSION_STR);
-	
-	//uart_print("\r\n");
-	
+void init_rfid(){	
 	spi_init();
-	_delay_ms(1000);
+	//_delay_ms(1000);
 	
 	//init reader
 	mfrc522_init();
-	
-	//check version of the reader
-	// 	byte = mfrc522_read(VersionReg);
-	// 	if(byte == 0x92)
-	// 	{
-	// 		uart_print("MIFARE RC522v2");
-	// 		uart_print("Detected");
-	// 		uart_print("\r\n");
-	// 	}else if(byte == 0x91 || byte==0x90)
-	// 	{
-	// 		uart_print("MIFARE RC522v1");
-	// 		uart_print("Detected");
-	// 		uart_print("\r\n");
-	// 	}else
-	// 	{
-	// 		uart_print("No reader found");
-	// 		uart_print("\r\n");
-	// 	}
 	
 	byte = mfrc522_read(ComIEnReg);
 	mfrc522_write(ComIEnReg,byte|0x20);
 	byte = mfrc522_read(DivIEnReg);
 	mfrc522_write(DivIEnReg,byte|0x80);
 	
-	_delay_ms(1500);
+	//_delay_ms(1500);
 }
 
 ///////////////////////////////////////////////
@@ -191,7 +170,7 @@ void loop(void) {
 			uart_print("\r\n");
 			
 			// Debounce
-			_delay_ms(50);
+			//_delay_ms(50);
 			if (!(PINC & (1 << BUTTON1_PIN))) {
 				// Activate relay 1
 				PORTD &= ~(1 << RELAY_PIN1);
@@ -210,7 +189,7 @@ void loop(void) {
 			uart_print("\r\n");
 			
 			// Debounce
-			_delay_ms(50);
+			//_delay_ms(50);
 			if (!(PINC & (1 << BUTTON2_PIN))) {
 				// Activate relay 2
 				PORTD &= ~(1 << RELAY_PIN2);
@@ -226,95 +205,12 @@ void loop(void) {
 		PORTD |= (1 << RELAY_PIN1) | (1 << RELAY_PIN2);
 	}
 
-	// Reset relays
-	//PORTD |= (1 << RELAY_PIN1) | (1 << RELAY_PIN2);
-
 	_delay_ms(100); // Polling interval
 }
 
-	
-	// for sensor
-// 	distance = getDistance_main(&diagnostics);
-// 	uart_print("Distance: ");      // Print label
-// 	uart_print_float(distance);    // Print measured distance
-// 	uart_print(" cm\r\n");         // Print units and newline
-// 	if (distance <= 4){
-// 		uart_print("Good");
-// 		uart_print("\r\n");
-// 	}
-// 	_delay_ms(100);                // Wait 100 ms before next reading
-	
-	// for rfid
-// 	uart_print("RFID Reader");
-// 	uart_print(VERSION_STR);
-// 	
-// 	uart_print("\r\n");
-// 	
-// 	spi_init();
-// 	_delay_ms(1000);
-// 	
-// 	//init reader
-// 	mfrc522_init();
-// 	
-// 	//check version of the reader
-// 	byte = mfrc522_read(VersionReg);
-// 	if(byte == 0x92)
-// 	{
-// 		uart_print("MIFARE RC522v2");
-// 		uart_print("Detected");
-// 		uart_print("\r\n");
-// 	}else if(byte == 0x91 || byte==0x90)
-// 	{
-// 		uart_print("MIFARE RC522v1");
-// 		uart_print("Detected");
-// 		uart_print("\r\n");
-// 	}else
-// 	{
-// 		uart_print("No reader found");
-// 		uart_print("\r\n");
-// 	}
-// 	
-// 	byte = mfrc522_read(ComIEnReg);
-// 	mfrc522_write(ComIEnReg,byte|0x20);
-// 	byte = mfrc522_read(DivIEnReg);
-// 	mfrc522_write(DivIEnReg,byte|0x80);
-// 	
-// 	_delay_ms(1500);
-// 	
-// 	rfid_loop();
-// 
-// 	PORTD |= (1 << RELAY_PIN1) | (1 << RELAY_PIN2); // Make relays go high (turns off relay) (MAYBE, LOOKUP)
-
 void check_rfid(){
-// 	byte = mfrc522_request(PICC_REQALL, str);
-// 	
-// 	if (byte == CARD_FOUND) {
-// 		uart_print("Card detected!\r\n");
-// 
-// 		byte = mfrc522_get_card_serial(str);
-// 		if (byte == CARD_FOUND) {
-// 			uart_print("Card UID: ");
-// 			for (byte = 0; byte < 5; byte++) {  // Typical UID length is 5 bytes
-// 				char uidByte[4];  // Enough for "FF "
-// 				sprintf(uidByte, "%02X ", str[byte]);
-// 				uart_print(uidByte);
-// 			}
-// 			uart_print("\r\n");
-// 
-// 			_delay_ms(2500);
-// 			} 
-// 		else {
-// 			uart_print("Error reading card serial\r\n");
-// 		}
-// 	}
-// 
-// 	_delay_ms(1000);
-
 	uart_print("In RFID");
 	uart_print("\r\n");
-
-// 	uid_match = 0;
-// 	rfid_ok = 0; // Reset unless valid UID is read
 	
 	byte = mfrc522_request(PICC_REQALL, str);
 	uid_match = 0;  // Reset match flag each scan
@@ -337,19 +233,6 @@ void check_rfid(){
 	}
 
 	_delay_ms(1000);  // General polling delay
-
-// 	if (str[0] == 0x61 && str[1] == 0x24 &&
-// 	str[2] == 0x18 && str[3] == 0x02 && str[4] == 0x5F) {
-// 		uid_match = 1;
-// 		rfid_ok = 1;  // <--- Set flag here
-// 		uart_print("RFID OK");
-// 		uart_print("\r\n");
-// 	} 
-// 	else {
-// 		uart_print("RFID NOT OK");
-// 		uart_print("\r\n");
-// 		rfid_ok = 0;
-// 	}
 }
 
 
