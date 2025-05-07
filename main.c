@@ -125,7 +125,7 @@ void main_loop(void) {
 	distance = getDistance_main(&diagnostics);
 
 	// Check and set distance_ok flag
-	if (distance <= 4 || (distance <= 80 && distance >= 70)) {
+	if (distance <= 13 || (distance <= 80 && distance >= 70)) {
 		distance_ok = 1;
 	} 
 	else {
@@ -147,7 +147,7 @@ void main_loop(void) {
 
 		// Check and set distance_ok flag
 		// its not a bug its a feature ;)
-		if (distance <= 4 || (distance <= 80 && distance >= 70)) {
+		if (distance <= 13 || (distance <= 75 && distance >= 65)) {
 			distance_ok = 1;
 		}
 		else {
