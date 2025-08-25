@@ -36,7 +36,7 @@ This project integrates **RFID authentication**, **ultrasonic distance sensing**
 4. Dispenses liquid when a button is pressed.  
 5. Resets relays at the end of each cycle.  
 
-![System Flow Diagram](#) *(Replace with actual image if available)*  
+![System Flow Diagram](https://github.com/Adrian-A/SodaDispenser/blob/main/Tests/Screenshot%202025-08-25%20151232.png)
 
 ## 📊 Results  
 - The dispenser successfully prevents dispensing without a cup.  
@@ -44,7 +44,7 @@ This project integrates **RFID authentication**, **ultrasonic distance sensing**
 - Liquid dispenses reliably upon authentication and button press.  
 - Encountered minor **noise issues** from pumps affecting sensors, mitigated with layout adjustments.  
 
-📹 [Full Demo Video](https://iowa-my.sharepoint.com/:v:/g/personal/sebolen_uiowa_edu/Eca9Vk9n3-VHr41r5trK9NEB0kA0RxeAtCbYkjQcaoJH_g?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=K41ZzT)  
+📹 [Full Demo Video]([https://iowa-my.sharepoint.com/:v:/g/personal/sebolen_uiowa_edu/Eca9Vk9n3-VHr41r5trK9NEB0kA0RxeAtCbYkjQcaoJH_g?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=K41ZzT](https://github.com/Adrian-A/SodaDispenser/blob/main/Tests/7C41D827-79C2-4EBE-A6F9-6F0FE475BF0B.MOV))  
 
 ## 🔧 Future Improvements  
 - Replace 5V pumps with **12V isolated power pumps** for reduced noise.  
